@@ -1,12 +1,14 @@
 package screens;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 
-public class ScreensAbstract implements ScreensInterface {
+public abstract class ScreensAbstract {
+    Scanner superscanner = new Scanner(System.in);
+    public abstract void display() throws IOException;
 
-    @Override
-    public ScreensAbstract display() throws IOException {
+    public ScreensAbstract facade() throws IOException {
         return null;
     }
 }

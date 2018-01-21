@@ -1,5 +1,7 @@
 package exchange;
 
+import screens.MainScreen;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -15,6 +17,7 @@ public class ParsowanieMaila {
 
     public List<String> tlumaczenie() {
         Scanner scanner = new Scanner(System.in);
+        MainScreen mainScreen = new MainScreen();
         try {
             while (scanner.hasNext()) {
                 String wiersz = scanner.nextLine().trim();
@@ -24,8 +27,11 @@ public class ParsowanieMaila {
                 if (wiersz.contains("Zespół Allegro")) {
                     break;
                 }
+                if(wiersz.contains("exit")){
+                    mainScreen.display();
+                }
             }
-        } catch (IllegalStateException e) {
+        } catch (IOException e) {
             System.out.println("Koniec pliku");
         } finally {
             //System.out.println(text);
@@ -39,17 +45,26 @@ public class ParsowanieMaila {
             Matcher m = pattern.matcher(s);
 
             if (s.contains("POCHŁANIACZY WILGOCI ZESTAW 10 X 500 G")) {
-                sparsowaneDane.append("10x500g|");
+                sparsowaneDane.append("10x500g ");
+                while (m.find()){
+                    sparsowaneDane.append(m.group());
+                }
+                sparsowaneDane.append("|");
 
             }
             if (s.contains("POCHŁANIACZY WILGOCI 250G UNIWERSALNE")){
-                sparsowaneDane.append("250g|");
+                sparsowaneDane.append("250g");
+                while (m.find()){
+                    sparsowaneDane.append(m.group());
+                }
+                sparsowaneDane.append("|");
             }
             if (s.contains("WILGOCI ZESTAW 10 X 250 G")){
-                sparsowaneDane.append("10x250g|");
-            }
-            while (m.find()){
-                sparsowaneDane.append(m.group()+"|");
+                sparsowaneDane.append("10x250g");
+                while (m.find()){
+                    sparsowaneDane.append(m.group());
+                }
+                sparsowaneDane.append("|");
             }
         }
         return sparsowaneDane;
@@ -133,12 +148,12 @@ public class ParsowanieMaila {
         for (String s : text){
             if(s.contains("Metoda płatności")){
                 if(s.contains("Płacę przelewem tradycyjnym")){
-                    sparsowaneDane.append("Zwykły przelew|nowy||\n");
+                    sparsowaneDane.append("Zwykły przelew");
                 }
                 if(s.contains("Płacę przy odbiorze")){
-                    sparsowaneDane.append("Pobranie|nowy||");
+                    sparsowaneDane.append("Pobranie");
                 }else {
-                    sparsowaneDane.append("Do weryfikacji|nowy||\n");
+                    continue;
                 }
             }
         }
