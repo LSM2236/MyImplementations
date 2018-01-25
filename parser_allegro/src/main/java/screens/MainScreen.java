@@ -32,8 +32,9 @@ public class MainScreen extends ScreensAbstract {
                     System.out.println("wybrano opcje spoza zakresu");
                     mainScreen.display();
             }
-        }catch (IllegalFormatException e){
+        }catch (IllegalArgumentException e){
             System.out.println("Wprowadzono niepoprawna opcje. Uzyj cyfr");
+            display();
         }finally {
             superscanner.close();
         }

@@ -1,6 +1,5 @@
 package exchange;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -11,20 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Fiskalizacja {
-    public static void main(String[] args) throws IOException {
-        ParsowanieMaila parsowanieMaila = new ParsowanieMaila();
-        ParsowanieMaila parserTextu = new ParsowanieMaila();
-        StringBuilder sparsowanyText = new StringBuilder();
 
-        List wczytanyText = new ArrayList(parserTextu.tlumaczenie());
-        parsowanieMaila.dodanieDaty(wczytanyText, sparsowanyText);
-        parsowanieMaila.dodanieNUzytkownika(wczytanyText, sparsowanyText);
-        parsowanieMaila.dodanieImienia(wczytanyText, sparsowanyText);
-        parsowanieMaila.dodanieZakupu(wczytanyText, sparsowanyText);
-        parsowanieMaila.dodanieSposobuDostawy(wczytanyText, sparsowanyText);
-        parsowanieMaila.dodanieStatusuPlatnosciIZamowienia(wczytanyText, sparsowanyText);
-        //Fiskalizacja.obliczaniePodatkuOdTransakcji(sparsowanyText);
-    }
     public StringBuilder obliczaniePodatkuOdTransakcji(StringBuilder sparsowanyText){
         double wartosc = 0;
         Pattern pattern2 = Pattern.compile("([0-9]{1,3}x+)*[0-9]{1,3}g+");

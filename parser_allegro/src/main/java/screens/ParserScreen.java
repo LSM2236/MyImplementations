@@ -66,7 +66,6 @@ public class ParserScreen extends ScreensAbstract{
         ParserScreen ps = new ParserScreen();
         try {
             zapisDoPliku.zapisDoPliku(path, sparsowanyText);
-
             System.out.println(sparsowanyText);
             ps.display();
         }catch (FileNotFoundException e){

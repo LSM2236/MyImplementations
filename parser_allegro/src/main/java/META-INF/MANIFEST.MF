@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-Class-Path: C:\Work\projekty\parser_allegro\src\main\java\exchange\Mai
- n.java
-Main-Class: exchange.Main
-
