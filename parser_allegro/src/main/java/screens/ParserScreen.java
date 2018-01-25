@@ -1,5 +1,6 @@
 package screens;
 
+import exchange.Fiskalizacja;
 import exchange.ParsowanieMaila;
 import exchange.ToFileSaver;
 
@@ -50,6 +51,7 @@ public class ParserScreen extends ScreensAbstract{
         String path = "C:\\Users\\dom\\Desktop\\PlikTestowy.ods";
         ParsowanieMaila parserTextu = new ParsowanieMaila();
         StringBuilder sparsowanyText = new StringBuilder();
+        Fiskalizacja obliczaniePodatkuIWartosci = new Fiskalizacja();
 
         List wczytanyText = new ArrayList(parserTextu.tlumaczenie());
 
@@ -59,6 +61,7 @@ public class ParserScreen extends ScreensAbstract{
         parserTextu.dodanieZakupu(wczytanyText, sparsowanyText);
         parserTextu.dodanieSposobuDostawy(wczytanyText, sparsowanyText);
         parserTextu.dodanieStatusuPlatnosciIZamowienia(wczytanyText, sparsowanyText);
+        obliczaniePodatkuIWartosci.obliczaniePodatkuOdTransakcji(sparsowanyText);
         ToFileSaver zapisDoPliku = new ToFileSaver();
         ParserScreen ps = new ParserScreen();
         try {

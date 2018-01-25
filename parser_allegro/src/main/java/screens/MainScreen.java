@@ -13,7 +13,8 @@ public class MainScreen extends ScreensAbstract {
         System.out.println("Wybierz jedną z opcji \n" +
                 "1. Wczytaj text do pliku \n" +
                 "2. Zdefiniuj sciezke dla wprowadzonych danych\n" +
-                "3. Wyjdz z programu");
+                "3. Oblicz podatek miesieczny \n" +
+                "4. Wyjdz z programu");
         try  {
             String wyborOpcji = superscanner.nextLine();
             Integer opcje = Integer.parseInt(wyborOpcji);
@@ -24,6 +25,8 @@ public class MainScreen extends ScreensAbstract {
                 case 2:
                     return;
                 case 3:
+                    return;
+                case 4:
                     System.exit(0);
                 default:
                     System.out.println("wybrano opcje spoza zakresu");

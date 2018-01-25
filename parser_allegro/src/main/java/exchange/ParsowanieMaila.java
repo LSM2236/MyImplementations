@@ -45,7 +45,7 @@ public class ParsowanieMaila {
             Matcher m = pattern.matcher(s);
 
             if (s.contains("POCHŁANIACZY WILGOCI ZESTAW 10 X 500 G")) {
-                sparsowaneDane.append("10x500g ");
+                sparsowaneDane.append("10x500g");
                 while (m.find()){
                     sparsowaneDane.append(m.group());
                 }
@@ -87,14 +87,11 @@ public class ParsowanieMaila {
     }
 
     public StringBuilder dodanieDaty(List<String> text, StringBuilder sparsowaneDane) {
-        String miesiace = "styczeń stycznia luty lutego marzec marca kwiecień kwietnia maj maja czerwiec " +
-                "czerwca lipiec lipca sierpień sierpnia wrzesień września październik października listopad " +
-                "listopada grudzień grudnia";
+        Pattern patternData = Pattern.compile("[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}");
         for (String s : text) {
-            String temp = s.replaceAll("[^A-Za-zńćśąę]","");
-            if (miesiace.contains(s.replaceAll("[^A-Za-zńćśąę]",""))&& temp.length()>=3) {
-                sparsowaneDane.append(s+"|");
-
+            Matcher matcherNaDate = patternData.matcher(s);
+            while (matcherNaDate.find()){
+                sparsowaneDane.append(matcherNaDate.group()+"|");
             }
         }
         return sparsowaneDane;
@@ -114,31 +111,32 @@ public class ParsowanieMaila {
     public StringBuilder dodanieSposobuDostawy(List<String> text, StringBuilder sparsowaneDane){
         for (String s : text){
             if(s.contains("Sposób i koszt dostawy")){
-                String temp = text.get(text.indexOf(s)+1).trim().replaceAll("[A-Za-złęąćźżń]", "")
+                String temp = text.get(text.indexOf(s)+1).trim().replaceAll("[A-Za-złęąćźżńó]", "")
                         .replaceAll(",",".");
                 if (Double.valueOf(temp)==0){
-                    sparsowaneDane.append("Darmowa wysylka");
-                }
-                if (Double.valueOf(temp)%8.60 == 0) {
-                    sparsowaneDane.append("Paczkomat|");
-                }
-                if (Double.valueOf(temp)%7.20 == 0){
-                    sparsowaneDane.append("Minipaczka|");
-                }
-                if (Double.valueOf(temp)%12.10 == 0){
-                    sparsowaneDane.append("Paczkomat pobranie|");
-                }
-                if (Double.valueOf(temp) %4.75 == 0){
-                    sparsowaneDane.append("List ekonomiczny|");
-                }
-                if (Double.valueOf(temp)== 13.50 || (Double.valueOf(temp)>13.50 && (Double.valueOf(temp)-13.50) % 0.80 == 0)
-                        ||(Double.valueOf(temp)>13.50 && (Double.valueOf(temp)-13.50) % 1.50 == 0)){
-                    sparsowaneDane.append("Kurier|");
-                }
+                    sparsowaneDane.append("Darmowa wysylka|");
+                }else {
+                    if (Double.valueOf(temp) % 8.60 == 0) {
+                        sparsowaneDane.append("Paczkomat|");
+                    }
+                    if (Double.valueOf(temp) % 7.20 == 0) {
+                        sparsowaneDane.append("Minipaczka|");
+                    }
+                    if (Double.valueOf(temp) % 12.10 == 0) {
+                        sparsowaneDane.append("Paczkomat pobranie|");
+                    }
+                    if (Double.valueOf(temp) % 4.75 == 0) {
+                        sparsowaneDane.append("List ekonomiczny|");
+                    }
+                    if (Double.valueOf(temp) == 13.50 || (Double.valueOf(temp) > 13.50 && (Double.valueOf(temp) - 13.50) % 0.80 == 0)
+                            || (Double.valueOf(temp) > 13.50 && (Double.valueOf(temp) - 13.50) % 1.50 == 0)) {
+                        sparsowaneDane.append("Kurier|");
+                    }
 
-                if (Double.valueOf(temp)== 17 || (Double.valueOf(temp)>17 && Double.valueOf(temp)-17 % 0.80 == 0)
-                        ||(Double.valueOf(temp)>17 && (Double.valueOf(temp)-17) % 1.50 == 0)){
-                    sparsowaneDane.append("Kurier pobranie|");
+                    if (Double.valueOf(temp) == 17 || (Double.valueOf(temp) > 17 && Double.valueOf(temp) - 17 % 0.80 == 0)
+                            || (Double.valueOf(temp) > 17 && (Double.valueOf(temp) - 17) % 1.50 == 0)) {
+                        sparsowaneDane.append("Kurier pobranie|");
+                    }
                 }
             }
         }
@@ -153,10 +151,11 @@ public class ParsowanieMaila {
                 if(s.contains("Płacę przy odbiorze")){
                     sparsowaneDane.append("Pobranie");
                 }else {
-                    continue;
+                    sparsowaneDane.append(" PayU ");
                 }
             }
         }
+        sparsowaneDane.append("| nowy | @ |");
         return sparsowaneDane;
     }
 }
